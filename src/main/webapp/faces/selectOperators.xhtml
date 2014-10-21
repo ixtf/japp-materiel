@@ -1,0 +1,25 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pe="http://primefaces.org/ui/extensions">
+    <p:dialog modal="true" widgetVar="#{widgetVar}" dynamic="true">
+        <p:fragment autoUpdate="true">
+            <p:dataTable var="_operator" value="#{selectOperatorsBean.operators}"
+                         rowKey="#{_operator.id}"
+                         selection="#{selectOperatorsBean.selectedOperators}"
+                         rows="#{operatorsBean.pageSize}" paginator="true" lazy="true">
+                <p:column selectionMode="multiple"
+                          style="width:2%;text-align:center" />
+                <p:column headerText="#{msg['name']}">
+                    <h:outputText value="#{_operator.name}" />
+                </p:column>
+            </p:dataTable>
+            <p:commandButton update="#{update}"
+                             action="#{selectOperatorsBean.select}"
+                             onsuccess="PF('#{widgetVar}').hide()"
+                             value="#{msg['operation.submit']}" global="false" />
+        </p:fragment>
+    </p:dialog>
+</ui:composition>

@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<faces-config xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd"
+              version="2.2">
+    <converter>
+        <converter-id>sapT023t</converter-id>
+        <converter-class>com.hengyi.japp.materiel.web.converter.SapT023tConverter</converter-class>
+    </converter>  
+    <converter>
+        <converter-id>workshop</converter-id>
+        <converter-class>com.hengyi.japp.materiel.web.converter.WorkshopConverter</converter-class>
+    </converter>
+    <converter>
+        <converter-id>matnr</converter-id>
+        <converter-class>com.hengyi.japp.materiel.web.converter.MatnrConverter</converter-class>
+    </converter>
+    <application>
+        <system-event-listener>
+            <system-event-listener-class>com.hengyi.japp.materiel.ApplicationListener</system-event-listener-class>
+            <system-event-class>javax.faces.event.PostConstructApplicationEvent</system-event-class>
+        </system-event-listener>
+        <resource-bundle>
+            <base-name>messages</base-name>
+            <var>msg</var>
+        </resource-bundle>
+        <resource-bundle>
+            <base-name>errors</base-name>
+            <var>errors</var>
+        </resource-bundle>
+        <locale-config>
+            <default-locale>zh_CN</default-locale>
+        </locale-config>
+    </application>
+</faces-config>

@@ -1,0 +1,33 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/templates/bootstrap3/nav.xhtml">
+    <ui:define name="nav">
+        <li class="dropdown"><h:outputLink value="javascript:void(0)" styleClass="dropdown-toggle" pt:data-toggle="dropdown">
+                <h:outputText value="#{msg['new']}" /><b class="caret"></b>
+            </h:outputLink>
+            <ul class="dropdown-menu" pt:role="menu">
+                <li><h:outputLink value="#{request.contextPath}/admin/operator">
+                        <h:outputText value="#{msg['operator']}" />
+                    </h:outputLink></li>
+            <!-- <li><h:outputLink value="#{request.contextPath}/admin/corp">
+                            <h:outputText value="#{msg['corp']}" />
+                    </h:outputLink></li>
+            <li><h:outputLink value="#{request.contextPath}/admin/dep">
+                            <h:outputText value="#{msg['dep']}" />
+                    </h:outputLink></li> -->
+            </ul></li>
+        <li><h:outputLink value="#{request.contextPath}/admin/operators">
+                <h:outputText value="#{msg['operator']}#{msg['manage']}" />
+            </h:outputLink></li>
+    <!-- <li><h:outputLink value="#{request.contextPath}/admin/corps">
+                    <h:outputText value="#{msg['corp']}#{msg['manage']}" />
+            </h:outputLink></li>
+    <li><h:outputLink value="#{request.contextPath}/admin/deps">
+                    <h:outputText value="#{msg['dep']}#{msg['manage']}" />
+            </h:outputLink></li> -->
+    </ui:define>
+</ui:composition>

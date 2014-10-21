@@ -1,0 +1,59 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/templates/default.xhtml">
+    <ui:define name="content">
+        <h:form id="form">
+            <p:growl id="messages" showDetail="true" autoUpdate="true" />
+            <h:panelGrid columns="7" cellpadding="5" styleClass="form-inline">
+                <p:outputLabel for="sapMaraQuery_matnr" value="#{msg['matnr']}" />
+                <p:inputText id="sapMaraQuery_matnr" value="#{sapMarasBean.sapMaras.command.matnr}" />
+                <p:outputLabel for="sapMaraQuery_maktx" value="#{msg['maktx']}" />
+                <p:inputText id="sapMaraQuery_maktx" value="#{sapMarasBean.sapMaras.command.maktx}" />
+                <p:outputLabel for="sapMaraQuery_sapT023t" value="#{msg['matkl']}" />
+                <p:autoComplete id="sapMaraQuery_sapT023t" value="#{sapMarasBean.sapMaras.command.sapT023t}"
+                                completeMethod="#{queryService.autoCompleteSapT023t}" converter="sapT023t" var="_item" itemLabel="#{_item.wgbez}" itemValue="#{_item}"
+                                forceSelection="true" cache="true" queryDelay="1000" />
+                <p:commandButton action="#{sapMarasBean.sapMaras.search}" value="#{msg['search']}" update="tableSapMara,messages" icon="ui-icon-search" />
+            </h:panelGrid>
+
+            <h:commandLink>
+                <p:graphicImage value="#{resource['img/excel.png']}" />
+                <p:dataExporter type="xls" target="tableSapMara" fileName="maras" />
+            </h:commandLink>
+            <p:dataTable id="tableSapMara" var="_item" value="#{sapMarasBean.sapMaras}"
+                         rows="#{sapMarasBean.pageSize}" paginator="true" lazy="true"
+                         paginatorTemplate="{CurrentPageReport} {RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+                         rowsPerPageTemplate="5,10,15">
+                <p:column>
+                    <p:commandLink action="#{sapMarasBean.edit}">
+                        <h:outputText value="#{msg.import}" />
+                        <f:setPropertyActionListener value="#{_item}" target="#{sapMarasBean.sapMara}" />
+                    </p:commandLink>
+                </p:column>
+
+                <p:column headerText="#{msg['matnr']}">
+                    <h:outputText value="#{_item.matnr}" converter="matnr" />
+                </p:column>
+
+                <p:column headerText="#{msg['maktx']}">
+                    <h:outputText value="#{_item.sapMakt.maktx}" />
+                </p:column>
+
+                <p:column headerText="#{msg['meins']}">
+                    <h:outputText value="#{_item.meins}" />
+                </p:column>
+
+                <p:column headerText="#{msg['matkl']}">
+                    <h:outputText value="#{_item.sapT023t.matkl}" />
+                </p:column>
+
+                <p:column headerText="#{msg['wgbez']}">
+                    <h:outputText value="#{_item.sapT023t.wgbez}" />
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </ui:define>
+</ui:composition>

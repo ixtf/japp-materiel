@@ -1,0 +1,39 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                template="/WEB-INF/templates/admin.xhtml">
+    <ui:define name="content">
+        <h:form id="formOperator" styleClass="form-inline">
+            <p:growl id="message" showDetail="true" sticky="true"
+                     autoUpdate="true" />
+            <ui:include src="/faces/updateTitle.xhtml">
+                <ui:param name="entity" value="#{operatorBean.operator}" />
+                <ui:param name="title" value="#{msg['operator']}" />
+            </ui:include>
+
+            <h:panelGrid columns="3" cellpadding="5" styleClass="form-inline">
+                <p:outputLabel for="loginId" value="#{msg['loginId']}" />
+                <p:inputText id="loginId" value="#{operatorBean.login.loginId}"
+                             readonly="#{not empty operatorBean.operator.id}" required="true" />
+                <p:message for="loginId" />
+
+                <p:outputLabel for="name" value="#{msg['name']}" />
+                <p:inputText id="name" value="#{operatorBean.operator.name}"
+                             required="true" />
+                <p:message for="name" />
+
+                <p:outputLabel for="mobile" value="#{msg['mobilePhone']}" />
+                <p:inputText id="mobile" value="#{operatorBean.mobile.phone}"
+                             required="true" />
+                <p:message for="mobile" />
+            </h:panelGrid>
+            <p:commandButton process=":formOperator" update=":formOperator"
+                             action="#{operatorBean.save}" value="#{msg['operation.submit']}"
+                             styleClass="ui-priority-primary" />
+        </h:form>
+    </ui:define>
+</ui:composition>

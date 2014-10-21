@@ -1,0 +1,41 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/templates/admin.xhtml">
+    <ui:define name="content">
+        <p:growl widgetVar="growl" showDetail="true" sticky="true" />
+        <h:form id="form">
+            <p:messages id="messages" autoUpdate="true" showDetail="true" />
+
+            <p:tabView>
+                <p:tab title="全部导入">
+                    <p:fragment>
+                        <p:commandButton action="#{adminHomeBean.importAllSapMara}" value="importAllSapMara"/>
+                    </p:fragment>
+                </p:tab>
+
+                <p:tab title="按页导入">
+                    <h:panelGrid columns="4">
+                        <p:inputText id="i_FIREST" value="#{adminHomeBean.i_FIREST}" required="true" pt:min="1"/>
+                        <p:message for="i_FIREST"/>
+
+                        <p:inputText id="i_PAGESIZE" value="#{adminHomeBean.i_PAGESIZE}" required="true" pt:min="1"/>
+                        <p:message for="i_PAGESIZE"/>
+
+                        <p:commandButton action="#{adminHomeBean.importSapMara}" value="importSapMara"/>
+                    </h:panelGrid>
+                </p:tab>
+            </p:tabView>
+
+            <p:socket onMessage="handleMessage" channel="/importSapMara" />
+            <script type="text/javascript">
+                function handleMessage(facesmessage) {
+                    facesmessage.severity = 'info';
+                    PF('growl').show([facesmessage]);
+                }
+            </script>
+        </h:form>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,29 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/templates/default.xhtml">
+    <ui:define name="content">
+        <h:form id="form">
+            <p:growl id="message" showDetail="true" autoUpdate="true" />
+            <ui:include src="/faces/updateTitle.xhtml">
+                <ui:param name="entity" value="#{workshopBean.workshop}" />
+                <ui:param name="title" value="#{msg['workshop']}" />
+            </ui:include>
+
+            <h:panelGrid columns="2" cellpadding="5" styleClass="form-inline">
+                <p:outputLabel for="name" value="#{msg['name']}" />
+                <h:panelGroup>
+                    <h:panelGrid columns="2" cellpadding="5" styleClass="form-inline">
+                        <p:inputText id="name" value="#{workshopBean.workshop.name}" required="true" />
+                        <p:message for="name" />
+                    </h:panelGrid>
+                </h:panelGroup>
+
+                <p:outputLabel for="note" value="#{msg['note']}" />
+                <p:inputTextarea id="note" value="#{workshopBean.workshop.note}" />
+            </h:panelGrid>
+            <p:commandButton action="#{workshopBean.save}" update=":form" value="#{msg.finish}" styleClass="ui-priority-primary" />
+        </h:form>
+    </ui:define>
+</ui:composition>

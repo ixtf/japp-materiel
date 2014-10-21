@@ -1,0 +1,23 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                template="/WEB-INF/templates/common.xhtml">
+    <ui:define name="content">
+        <h:form id="form" styleClass="form-signin" pt:role="form">
+            <p:messages id="message" showDetail="true" />
+            <p:focus context="form" />
+
+            <p:inputText id="loginId" value="#{authBean.loginId}" required="true" styleClass="form-control" placeholder="#{msg['loginId']}" />
+            <p:message for="loginId" />
+
+            <p:password id="loginPassword" value="#{authBean.loginPassword}" required="true" styleClass="form-control" placeholder="#{msg['password']}" />
+            <p:message for="loginPassword" />
+
+            <p:commandButton action="#{authBean.login}" update=":form" value="#{msg.finish}" styleClass="ui-priority-primary btn btn-lg btn-primary btn-block" />
+        </h:form>
+    </ui:define>
+</ui:composition>

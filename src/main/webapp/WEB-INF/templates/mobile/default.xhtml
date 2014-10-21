@@ -1,0 +1,52 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pm="http://primefaces.org/mobile"
+                template="/WEB-INF/templates/mobile/common.xhtml">
+    <ui:define name="body">
+        <pm:page id="mainPage">
+            <pm:header title="#{msg['project.title']}" swatch="b">
+                <ui:insert name="pmHeader" />
+                <p:commandButton id="commandButtonHeaderLeft" type="button"
+                                 styleClass="ui-btn-left ui-btn-inline" icon="ui-icon-home" />
+                <p:commandButton id="commandButtonHeaderRight" type="button"
+                                 styleClass="ui-btn-right ui-btn-inline" icon="ui-icon-gear" />
+                <!-- <p:tabMenu>
+                        <p:menuitem value="#{msg['home']}" url="/" iconPos="top" />
+                        <p:menuitem value="#{msg['new']}#{msg['plan']}" url="/plan"
+                                iconPos="top" />
+                        <p:menuitem value="#{msg['plan']}#{msg['manage']}" url="/m/plans"
+                                iconPos="top" />
+                </p:tabMenu> -->
+            </pm:header>
+            <pm:content>
+                <ui:insert name="pmContent" />
+                <p:overlayPanel for="commandButtonHeaderLeft"
+                                widgetVar="overlayPanelCommandButtonHeaderLeft" at="left"
+                                showEffect="overlay">
+                    <p:menu>
+                        <p:menuitem value="#{msg['home']}" url="/" />
+                        <p:menuitem value="#{msg['new']}#{msg['plan']}" url="/plan" />
+                    </p:menu>
+                </p:overlayPanel>
+                <p:overlayPanel for="commandButtonHeaderRight"
+                                widgetVar="overlayPanelCommandButtonHeaderRight" at="right"
+                                showEffect="overlay">
+                    <h2>
+                        <h:outputText value="#{loginUser.name}" />
+                    </h2>
+                    <p:menu>
+                        <p:menuitem value="#{msg['edit']}#{msg['password']}"
+                                    url="/password" />
+                        <p:menuitem value="#{msg['edit']}#{msg['mobilePhone']}"
+                                    url="/mobilePhone" />
+                        <p:menuitem value="#{msg['logout']}" url="/logout"
+                                    icon="ui-icon-action" />
+                    </p:menu>
+                </p:overlayPanel>
+            </pm:content>
+        </pm:page>
+    </ui:define>
+</ui:composition>

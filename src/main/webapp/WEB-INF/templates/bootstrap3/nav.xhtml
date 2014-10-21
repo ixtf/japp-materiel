@@ -1,0 +1,49 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+                template="/WEB-INF/templates/bootstrap3/common.xhtml">
+    <ui:define name="body">
+        <div class="navbar navbar-default navbar-fixed-top" pt:role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" pt:data-toggle="collapse" pt:data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
+                    </button>
+                    <h:outputLink value="#{request.contextPath}" class="navbar-brand">
+                        <h:outputText value="#{msg['home']}" />
+                    </h:outputLink>
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <ui:insert name="nav" />
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
+                            <h:outputLink value="javascript:void(0)" styleClass="dropdown-toggle" pt:data-toggle="dropdown">
+                                <span class="glyphicon glyphicon-user" />
+                                <h:outputText value="#{loginUser.name}" />
+                                <span class="caret" />
+                            </h:outputLink>
+                            <ul class="dropdown-menu" pt:role="menu">
+                                <li>
+                                    <h:outputLink value="javascript:void(0)">
+                                        <h:outputText value="#{loginUser.principal}" />
+                                    </h:outputLink>
+                                </li>
+                                <ui:insert name="personalNav" />
+                                <li class="divider"></li>
+                                <li><h:outputLink value="#{request.contextPath}/logout">
+                                        <h:outputText value="#{msg['logout']}" />
+                                    </h:outputLink>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>

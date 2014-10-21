@@ -1,0 +1,99 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/templates/default.xhtml">
+    <ui:define name="content">
+        <h:form id="form">
+            <p:growl id="messages" showDetail="true" autoUpdate="true" />
+            <h:panelGrid columns="5" cellpadding="5" styleClass="form-inline">
+                <p:outputLabel for="maraQuery_maktx" value="#{msg['maktx']}" />
+                <p:inputText id="maraQuery_maktx" value="#{marasBean.maras.command.maktx}" />
+                <p:commandButton action="#{marasBean.sapMaras.search}" value="#{msg['search']}" icon="ui-icon-search" />
+            </h:panelGrid>
+
+            <p:dataTable id="tableMara" var="_item" value="#{marasBean.maras}"
+                         rows="#{marasBean.pageSize}" paginator="true" lazy="true"
+                         paginatorTemplate="{CurrentPageReport} {RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
+                         rowsPerPageTemplate="5,10,15">
+                <f:facet name="{Exporters}">
+                    <h:commandLink>
+                        <p:graphicImage value="#{resource['img/excel.png']}" />
+                        <p:dataExporter type="xls" target="tableMara" fileName="maras" />
+                    </h:commandLink>
+                </f:facet>
+                <p:column>
+                    <p:commandLink action="#{marasBean.edit}">
+                        <h:outputText value="#{msg['edit']}" />
+                        <f:setPropertyActionListener value="#{_item}" target="#{marasBean.mara}" />
+                    </p:commandLink>
+                </p:column>
+
+                <p:column headerText="#{msg.matnr}">
+                    <h:outputText value="#{_item.matnr}" converter="matnr" />
+                </p:column>
+
+                <p:column headerText="#{msg.maktx}">
+                    <h:outputText value="#{_item.sapMara.sapMakt.maktx}" />
+                </p:column>
+
+                <p:column headerText="#{msg.picture}">
+                    <p:commandLink process="@this" update=":form:dialogPicture" oncomplete="PF('dialogPicture').show()">
+                        <h:outputText value="#{msg.detail}"/>
+                        <f:setPropertyActionListener value="#{_item}" target="#{maraBean.mara}"/>
+                    </p:commandLink>
+                </p:column>
+
+                <p:column headerText="#{msg.maintenance}">
+                    <h:outputText value="#{msg.yes}" rendered="#{_item.maintenance}" />
+                    <h:outputText value="#{msg.no}" rendered="#{not _item.maintenance}" />
+                </p:column>
+
+                <p:column headerText="#{msg.maintenance}#{msg.period}">
+                    <h:outputText value="#{_item.maintenanceOffSet}" rendered="#{_item.maintenance}" />
+                </p:column>
+
+                <p:column headerText="#{msg.workshop}">
+                    <h:outputText value="#{_item.maintenanceWorkshop}" rendered="#{_item.maintenance}" />
+                </p:column>
+
+                <p:column headerText="#{msg.oldReplaceNew}">
+                    <h:outputText value="#{msg.yes}" rendered="#{_item.oldReplaceNew}" />
+                    <h:outputText value="#{msg.no}" rendered="#{not _item.oldReplaceNew}" />
+                </p:column>
+
+                <p:column headerText="#{msg.lowestStock}" style="text-align: right;">
+                    <h:outputText value="#{_item.lowestStock}">
+                        <f:convertNumber pattern="#,##0.00" />
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="#{msg.highestStock}" style="text-align: right;">
+                    <h:outputText value="#{_item.highestStock}">
+                        <f:convertNumber pattern="#,##0.00" />
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="#{msg.importantAttachment}">
+                    <h:outputText value="#{msg.yes}" rendered="#{_item.importantAttachment}"/>
+                    <h:outputText value="#{msg.no}" rendered="#{not _item.importantAttachment}"/>
+                </p:column>
+
+                <p:column headerText="#{msg.drawing}">
+                    <h:outputText value="#{msg.yes}" rendered="#{_item.haveDrawing}"/>
+                    <h:outputText value="#{msg.no}" rendered="#{not _item.haveDrawing}"/>
+                </p:column>
+
+                <p:column headerText="#{msg.purchase}#{msg.period}">
+                    <h:outputText value="#{_item.purchaseOffSet}" />
+                </p:column>
+            </p:dataTable>
+            <p:dialog id="dialogPicture" widgetVar="dialogPicture" header="#{maraBean.mara}" modal="true" draggable="false" resizable="false">
+                <p:galleria var="_item" value="#{maraBean.mara.photographs}" showCaption="true" autoPlay="false">
+                    <p:graphicImage url="/uploadfile/#{_item.savedFileName}" title="#{_item.fileName}"/>
+                </p:galleria>
+            </p:dialog>
+        </h:form>
+    </ui:define>
+</ui:composition>

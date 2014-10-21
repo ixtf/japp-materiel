@@ -1,0 +1,141 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                template="/WEB-INF/templates/default.xhtml">
+    <ui:define name="content">
+        <h:form id="form">
+            <p:growl id="message" showDetail="true" autoUpdate="true" />
+            <p:confirmDialog global="true">
+                <p:commandButton value="#{msg['yes']}" type="button" styleClass="ui-confirmdialog-yes ui-priority-primary" icon="ui-icon-check" />
+                <p:commandButton value="#{msg['no']}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+            </p:confirmDialog>
+            <h2>
+                <h:outputText value="#{msg['edit']}-#{msg.mara}" />
+            </h2>
+            <p:separator />
+            <h:panelGrid columns="2" cellpadding="5" styleClass="form-inline">
+                <p:outputLabel for="matnr" value="#{msg['matnr']}" />
+                <h:panelGroup>
+                    <h:panelGrid columns="2" cellpadding="5" styleClass="form-inline">
+                        <p:inputText id="matnr" value="#{maraBean.mara.matnr}" readonly="true" />
+                        <h:outputText id="maktx" value="#{maraBean.mara.sapMara.sapMakt.maktx}" />
+                    </h:panelGrid>
+                </h:panelGroup>
+
+                <p:outputLabel for="meins" value="#{msg['meins']}" />
+                <p:inputText id="meins" value="#{maraBean.mara.sapMara.meins}" readonly="true" />
+
+                <p:outputLabel for="matkl" value="#{msg['matkl']}" />
+                <h:panelGroup>
+                    <h:panelGrid columns="2" cellpadding="5" styleClass="form-inline">
+                        <p:inputText id="matkl" value="#{maraBean.mara.sapMara.sapT023t.matkl}" readonly="true" />
+                        <h:outputText id="wgbez" value="#{maraBean.mara.sapMara.sapT023t.wgbez}" />
+                    </h:panelGrid>
+                </h:panelGroup>
+
+                <p:outputLabel for="maintenance" value="#{msg['maintenance']}" />
+                <p:selectOneMenu id="maintenance" value="#{maraBean.mara.maintenance}">
+                    <f:selectItem itemLabel="#{msg.yes}" itemValue="true" />
+                    <f:selectItem itemLabel="#{msg.no}" itemValue="false" />
+                    <p:ajax event="change" update="_maintenance1,_maintenance2,_maintenance3,_maintenance4" global="false" />
+                </p:selectOneMenu>
+
+                <p:outputPanel id="_maintenance1">
+                    <p:outputLabel for="maintenancePeriod" value="#{msg['maintenance']}#{msg['period']}" rendered="#{maraBean.mara.maintenance}" />
+                </p:outputPanel>
+                <p:outputPanel id="_maintenance2">
+                    <h:panelGroup rendered="#{maraBean.mara.maintenance}">
+                        <h:panelGrid columns="2" cellpadding="5" styleClass="form-inline">
+                            <p:inputText id="maintenancePeriod" value="#{maraBean.mara.maintenanceOffSet}" required="true" />
+                            <p:selectOneMenu value="#{maraBean.mara.maintenancePeriodTimeUnit}">
+                                <f:selectItems value="#{maraBean.allPeriodTimeUnit}" var="_item" itemLabel="#{_item.displayName}" itemValue="#{_item}" />
+                            </p:selectOneMenu>
+                            <p:message for="maintenancePeriod" />
+                        </h:panelGrid>
+                    </h:panelGroup>
+                </p:outputPanel>
+
+                <p:outputPanel id="_maintenance3">
+                    <p:outputLabel for="maintenanceWorkshop" value="#{msg.workshop}" rendered="#{maraBean.mara.maintenance}" />
+                </p:outputPanel>
+                <p:outputPanel id="_maintenance4">
+                    <h:panelGroup rendered="#{maraBean.mara.maintenance}">
+                        <h:panelGrid columns="2" cellpadding="5" styleClass="form-inline">
+                            <p:selectOneMenu id="maintenanceWorkshop" value="#{maraBean.mara.maintenanceWorkshop}" converter="workshop">
+                                <f:selectItems value="#{cacheService.allWorkshop}" />
+                            </p:selectOneMenu>
+                        </h:panelGrid>
+                    </h:panelGroup>
+                </p:outputPanel>
+
+                <p:outputLabel for="oldReplaceNew" value="#{msg.oldReplaceNew}" />
+                <p:selectOneMenu id="oldReplaceNew" value="#{maraBean.mara.oldReplaceNew}">
+                    <f:selectItem itemLabel="#{msg.yes}" itemValue="true" />
+                    <f:selectItem itemLabel="#{msg.no}" itemValue="false" />
+                </p:selectOneMenu>
+
+                <p:outputLabel for="lowestStock" value="#{msg.lowestStock}" />
+                <h:panelGroup>
+                    <p:inputText id="lowestStock" value="#{maraBean.mara.lowestStock}" />
+                    <p:message for="lowestStock" />
+                </h:panelGroup>
+
+                <p:outputLabel for="highestStock" value="#{msg.highestStock}" />
+                <h:panelGroup>
+                    <p:inputText id="highestStock" value="#{maraBean.mara.highestStock}" />
+                    <p:message for="highestStock" />
+                </h:panelGroup>
+
+                <p:outputLabel for="importantAttachment" value="#{msg.importantAttachment}" />
+                <p:selectOneMenu id="importantAttachment" value="#{maraBean.mara.importantAttachment}">
+                    <f:selectItem itemLabel="#{msg.yes}" itemValue="true" />
+                    <f:selectItem itemLabel="#{msg.no}" itemValue="false" />
+                </p:selectOneMenu>
+
+                <p:outputLabel for="drawing" value="#{msg.drawing}" />
+                <p:selectOneMenu id="drawing" value="#{maraBean.mara.haveDrawing}">
+                    <f:selectItem itemLabel="#{msg.yes}" itemValue="true" />
+                    <f:selectItem itemLabel="#{msg.no}" itemValue="false" />
+                </p:selectOneMenu>
+
+                <p:outputLabel for="purchasePeriod" value="#{msg['purchase']}#{msg['period']}" />
+                <h:panelGroup>
+                    <h:panelGrid columns="2" cellpadding="5" styleClass="form-inline">
+                        <p:inputText id="purchasePeriod" value="#{maraBean.mara.purchaseOffSet}" required="true" />
+                        <p:selectOneMenu value="#{maraBean.mara.purchasePeriodTimeUnit}">
+                            <f:selectItems value="#{maraBean.allPeriodTimeUnit}" var="_item" itemLabel="#{_item.displayName}" itemValue="#{_item}" />
+                        </p:selectOneMenu>
+                        <p:message for="purchasePeriod" />
+                    </h:panelGrid>
+                </h:panelGroup>
+            </h:panelGrid>
+            <p:dataTable id="tablePhotograph" var="_item" value="#{maraBean.photographs}">
+                <f:facet name="header">
+                    <h:outputText value="#{msg.drawing}" />
+                </f:facet>
+
+                <p:column>
+                    <p:commandLink action="#{maraBean.removePhotograph}" process=":form" update=":form">
+                        <h:outputText value="#{msg.delete}" />
+                        <f:setPropertyActionListener value="#{_item}" target="#{maraBean.photograph}" />
+                        <p:confirm header="#{_item.fileName}" message="#{msg.confirm}？" icon="ui-icon-alert" />
+                    </p:commandLink>
+                </p:column>
+
+                <p:column headerText="#{msg.name}">
+                    <h:outputText id="test" value="#{_item.fileName}" />
+                    <p:overlayPanel for="test" hideEffect="explode" showEvent="mousedown" hideEvent="mousedown">
+                        <p:graphicImage url="/uploadfile/#{_item.savedFileName}" width="300" />
+                    </p:overlayPanel>
+                </p:column>
+            </p:dataTable>
+            <p:fileUpload fileUploadListener="#{maraBean.addPhotograph}" update=":form:tablePhotograph" mode="advanced" multiple="true"
+                          label="#{msg.picture}" uploadLabel="#{msg.upload}" cancelLabel="#{msg.cancel}" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" invalidFileMessage="#{errors.uploadImageFile}" />
+            <p:commandButton action="#{maraBean.save}" update=":form" value="#{msg.finish}" styleClass="ui-priority-primary" />
+        </h:form>
+    </ui:define>
+</ui:composition>

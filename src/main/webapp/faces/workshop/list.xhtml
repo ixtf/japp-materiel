@@ -1,0 +1,37 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/templates/default.xhtml">
+    <ui:define name="content">
+        <h:form id="form">
+            <p:growl id="messages" showDetail="true" autoUpdate="true" />
+            <h:panelGrid columns="5" cellpadding="5" styleClass="form-inline">
+                <p:outputLabel for="workshopQuery_name" value="#{msg['name']}" />
+                <p:inputText id="workshopQuery_name" value="#{workshopsBean.workshops.command.name}" />
+                <p:commandButton action="#{workshopsBean.workshops.search}" value="#{msg['search']}" icon="ui-icon-search" />
+            </h:panelGrid>
+
+            <p:dataTable id="tableWorkshop" var="_item" value="#{workshopsBean.workshops}"
+                         rows="#{workshopsBean.pageSize}" paginator="true" lazy="true"
+                         paginatorTemplate="{CurrentPageReport} {RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+                         rowsPerPageTemplate="5,10,15">
+                <p:column>
+                    <p:commandLink action="#{workshopsBean.edit}">
+                        <h:outputText value="#{msg['edit']}" />
+                        <f:setPropertyActionListener value="#{_item}" target="#{workshopsBean.workshop}" />
+                    </p:commandLink>
+                </p:column>
+
+                <p:column headerText="#{msg.name}">
+                    <h:outputText value="#{_item.name}" />
+                </p:column>
+
+                <p:column headerText="#{msg.note}">
+                    <h:outputText value="#{_item.note}" />
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </ui:define>
+</ui:composition>

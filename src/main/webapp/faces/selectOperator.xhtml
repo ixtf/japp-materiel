@@ -1,0 +1,55 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pe="http://primefaces.org/ui/extensions">
+                <!-- <p:overlayPanel widgetVar="#{widgetVar}" dynamic="true">
+                        <p:fragment autoUpdate="true">
+                                <p:dataTable var="_operator" value="#{selectOperatorBean.operators}"
+                                        rowKey="#{_operator.id}" selection="#{selectOperatorBean.operator}"
+                                        rows="#{operatorsBean.pageSize}" paginator="true" lazy="true">
+                                        <p:column selectionMode="single" style="width:2%;text-align:center" />
+        
+                                        <p:column headerText="#{msg['name']}">
+                                                <h:outputText value="#{_operator.name}" />
+                                        </p:column>
+        
+                                        <f:facet name="footer">
+                                                <p:commandButton update="#{update}"
+                                                        action="#{selectOperatorBean.select}"
+                                                        onsuccess="PF('#{widgetVar}').hide()"
+                                                        value="#{msg['operation.submit']}" global="false" />
+                                        </f:facet>
+                                </p:dataTable>
+                        </p:fragment>
+                </p:overlayPanel> -->
+    <p:dialog modal="true" widgetVar="#{widgetVar}" dynamic="true">
+        <p:fragment>
+            <h:panelGrid columns="3" cellpadding="5" styleClass="form-inline">
+                <h:outputLabel for="#{widgetVar}NameSearch" value="#{msg['name']}" />
+                <h:inputText id="#{widgetVar}NameSearch"
+                             value="#{operatorsBean.nameSearch}" />
+                <p:commandButton process="#{widgetVar}NameSearch"
+                                 update="#{widgetVar}DataTable" action="#{operatorsBean.search}"
+                                 value="#{msg['search']}" icon="ui-icon-search" global="false" />
+            </h:panelGrid>
+
+            <p:dataTable id="#{widgetVar}DataTable" var="_operator"
+                         value="#{operatorsBean.operators}" selection="#{value}"
+                         rows="#{operatorsBean.pageSize}" paginator="true" lazy="true">
+                <p:ajax event="rowSelect" update="#{update}"
+                        onsuccess="PF('#{widgetVar}').hide()" />
+
+                <p:column selectionMode="single" style="width:2%;text-align:center" />
+
+                <p:column headerText="#{msg['name']}">
+                    <h:outputText value="#{_operator.name}" />
+                </p:column>
+            </p:dataTable>
+            <p:commandButton update="#{update}"
+                             onsuccess="PF('#{widgetVar}').hide()"
+                             value="#{msg['operation.submit']}" global="false" />
+        </p:fragment>
+    </p:dialog>
+</ui:composition>
